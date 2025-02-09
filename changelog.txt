@@ -19,6 +19,7 @@ Template for new versions:
 ## Fixes
 
 ## Misc Improvements
+- `gui/notify`: save reminder now appears in adventure mode and also changes color to yellow at 30 minutes and to orange at 60 minutes
 
 ## Removed
 
