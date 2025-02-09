@@ -14,6 +14,8 @@ local buildings = df.global.world.buildings
 local caravans = df.global.plotinfo.caravans
 local units = df.global.world.units
 
+-- FIXME Add a proper API and UI for notification configuration
+-- this is global so one can use `:lua reqscript('internal/notify/notifications').save_time_threshold_mins=X` to change the threshold to X mins.
 save_time_threshold_mins = save_time_threshold_mins or 15
 
 function for_iter(vec, match_fn, action_fn, reverse)
