@@ -321,6 +321,19 @@ local function get_save_alert()
     }
 end
 
+local function save_popup()
+    local mins_since_save = dfhack.persistent.getUnsavedSeconds()//60
+    local message = 'It has been ' .. dfhack.formatInt(mins_since_save) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
+    '(Note: You can also close this reminder and save manually)'
+    local adv_warn_msg = "Unfortunately, quicksave doesn't currently work in Adventure mode, so you will need to save manually.\n\n"..
+    'Close this popup to open the options menu and select "Save and Continue Playing"'
+    if dfhack.world.isFortressMode() then
+        dlg.showYesNoPrompt('Save now?', message, nil, function () dfhack.run_script('quicksave') end)
+    else
+        dlg.showMessage("Unable to use quicksave", adv_warn_msg, nil, function () gui.simulateInput(gui.getDFViewscreen(), 'OPTIONS') end)
+    end
+end
+
 -- the order of this list controls the order the notifications will appear in the overlay
 NOTIFICATIONS_BY_IDX = {
     {-- The save reminder should always be at the top, since it's important.
@@ -328,18 +341,7 @@ NOTIFICATIONS_BY_IDX = {
         desc='Shows a reminder if it has been more than 15 minutes since your last save.',
         default=true,
         fn=get_save_alert,
-        on_click=function()
-            local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
-            local message = 'It has been ' .. dfhack.formatInt(minsSinceSave) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
-            '(Note: You can also close this reminder and save manually)'
-            dlg.showYesNoPrompt('Save now?', message, nil, function() 
-                if not dfhack.world.isFortressMode() then
-                    dfhack.gui.showPopupAnnouncement("Unfortunately, quicksave doesn't currently work in Adventure mode, so you will need to save manually.")
-                    return
-                end
-                dfhack.run_script('quicksave')
-                end)
-        end,
+        on_click=save_popup
     },
     {
         name='stuck_squad',
