@@ -40,6 +40,8 @@ Template for new versions:
 - `hide-tutorials`: if enabled, also hide tutorial popups for adventure mode
 - `hide-tutorials`: new ``reset`` command that will re-enable popups in the current game
 - `gui/notify`: save reminder now appears in adventure mode and also changes color to yellow at 30 minutes and to orange at 60 minutes
+- `gui/notify`: moody dwarf notification turns red when they can't find workshop or items
+
 
 ## Removed
 
