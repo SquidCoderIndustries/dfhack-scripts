@@ -303,8 +303,35 @@ local function get_bar(get_fn, get_max_fn, text, color)
     return nil
 end
 
+local function getSaveAlert()
+    local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
+    local pen = COLOR_LIGHTCYAN
+    local savetime = 15
+    if minsSinceSave >= 1*savetime then
+        if minsSinceSave >= 2*savetime then pen = COLOR_YELLOW end
+        if minsSinceSave >= 4*savetime then pen = COLOR_LIGHTRED end
+        return {
+            {text='Last save: ', pen=COLOR_WHITE},
+            {text=(dfhack.formatInt(minsSinceSave)) ..' mins ago', pen=pen},
+        }
+    end
+end
+
 -- the order of this list controls the order the notifications will appear in the overlay
 NOTIFICATIONS_BY_IDX = {
+    {-- The save reminder should always be at the top, since it's important.
+        name='save-reminder',
+        desc='Shows a reminder if it has been more than 15 minutes since your last save.',
+        default=true,
+        dwarf_fn=curry(getSaveAlert),
+        adv_fn=curry(getSaveAlert),
+        on_click=function()
+            local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
+            local message = 'It has been ' .. dfhack.formatInt(minsSinceSave) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
+            '(Note: You can also close this reminder and save manually)'
+            dlg.showYesNoPrompt('Save now?', message, nil, function() dfhack.run_script('quicksave') end)
+        end,
+    },
     {
         name='stuck_squad',
         desc='Notifies when a squad is stuck on the world map.',
@@ -523,29 +550,6 @@ NOTIFICATIONS_BY_IDX = {
         critical=true,
         adv_fn=curry(get_bar, get_blood, get_max_blood, "Blood", COLOR_RED),
         on_click=nil,
-    },
-    {
-        name='save-reminder',
-        desc='Shows a reminder if it has been more than 15 minutes since your last save.',
-        default=true,
-        dwarf_fn=function ()
-            local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
-            if minsSinceSave >= 15 then
-                return "Last save: ".. (dfhack.formatInt(minsSinceSave)) ..' mins ago'
-            end
-        end,
-        adv_fn=function ()
-            local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
-            if minsSinceSave >= 15 then
-                return "Last save: ".. (dfhack.formatInt(minsSinceSave)) ..' mins ago'
-            end
-        end,
-        on_click=function()
-            local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
-            local message = 'It has been ' .. dfhack.formatInt(minsSinceSave) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
-            '(Note: You can also close this reminder and save manually)'
-            dlg.showYesNoPrompt('Save now?', message, nil, function() dfhack.run_script('quicksave') end)
-        end,
     },
 }
 
