@@ -218,7 +218,7 @@ function Civalert:init()
                 },
                 widgets.HotkeyLabel{
                     frame={t=3, l=0},
-                    key='CUSTOM_CTRL_W',
+                    key='CUSTOM_CTRL_N',
                     label='Sound alarm! Citizens run to safety!',
                     on_activate=sound_alarm,
                     enabled=can_sound_alarm,
