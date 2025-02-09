@@ -19,7 +19,6 @@ Template for new versions:
 ## Fixes
 
 ## Misc Improvements
-- `gui/notify`: save reminder now appears in adventure mode and also changes color to yellow at 30 minutes and to orange at 60 minutes
 
 ## Removed
 
@@ -40,6 +39,7 @@ Template for new versions:
 ## Misc Improvements
 - `hide-tutorials`: if enabled, also hide tutorial popups for adventure mode
 - `hide-tutorials`: new ``reset`` command that will re-enable popups in the current game
+- `gui/notify`: save reminder now appears in adventure mode and also changes color to yellow at 30 minutes and to orange at 60 minutes
 
 ## Removed
 
