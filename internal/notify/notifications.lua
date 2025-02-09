@@ -329,11 +329,16 @@ NOTIFICATIONS_BY_IDX = {
         default=true,
         fn=get_save_alert,
         on_click=function()
-            if not dfhack.world.isFortressMode() then return end
             local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
             local message = 'It has been ' .. dfhack.formatInt(minsSinceSave) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
             '(Note: You can also close this reminder and save manually)'
-            dlg.showYesNoPrompt('Save now?', message, nil, function() dfhack.run_script('quicksave') end)
+            dlg.showYesNoPrompt('Save now?', message, nil, function() 
+                if not dfhack.world.isFortressMode() then
+                    dfhack.gui.showPopupAnnouncement("Unfortunately, quicksave doesn't currently work in Adventure mode, so you will need to save manually.")
+                    return
+                end
+                dfhack.run_script('quicksave')
+                end)
         end,
     },
     {
