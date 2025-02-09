@@ -14,6 +14,8 @@ local buildings = df.global.world.buildings
 local caravans = df.global.plotinfo.caravans
 local units = df.global.world.units
 
+save_time_threshold_mins = save_time_threshold_mins or 15
+
 function for_iter(vec, match_fn, action_fn, reverse)
     local offset = type(vec) == 'table' and 1 or 0
     local idx1 = reverse and #vec-1+offset or offset
@@ -303,18 +305,20 @@ local function get_bar(get_fn, get_max_fn, text, color)
     return nil
 end
 
-local function getSaveAlert()
+local function get_save_alert()
     local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
     local pen = COLOR_LIGHTCYAN
-    local savetime = 15
-    if minsSinceSave >= 1*savetime then
-        if minsSinceSave >= 2*savetime then pen = COLOR_YELLOW end
-        if minsSinceSave >= 4*savetime then pen = COLOR_LIGHTRED end
-        return {
-            {text='Last save: ', pen=COLOR_WHITE},
-            {text=(dfhack.formatInt(minsSinceSave)) ..' mins ago', pen=pen},
-        }
+    if minsSinceSave < save_time_threshold_mins then return end
+    if minsSinceSave >= 4*save_time_threshold_mins then
+        pen = COLOR_LIGHTRED
+    else if minsSinceSave >= 2*save_time_threshold_mins then
+        pen = COLOR_YELLOW
     end
+    end
+    return {
+        {text='Last save: ', pen=COLOR_WHITE},
+        {text=(dfhack.formatInt(minsSinceSave)) ..' mins ago', pen=pen},
+    }
 end
 
 -- the order of this list controls the order the notifications will appear in the overlay
@@ -323,9 +327,9 @@ NOTIFICATIONS_BY_IDX = {
         name='save-reminder',
         desc='Shows a reminder if it has been more than 15 minutes since your last save.',
         default=true,
-        dwarf_fn=curry(getSaveAlert),
-        adv_fn=curry(getSaveAlert),
+        fn=get_save_alert,
         on_click=function()
+            if not dfhack.world.isFortressMode() then return end
             local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
             local message = 'It has been ' .. dfhack.formatInt(minsSinceSave) .. ' minutes since your last save. \n\nWould you like to save now? ' ..
             '(Note: You can also close this reminder and save manually)'
