@@ -306,18 +306,18 @@ local function get_bar(get_fn, get_max_fn, text, color)
 end
 
 local function get_save_alert()
-    local minsSinceSave = dfhack.persistent.getUnsavedSeconds()//60
+    local mins_since_save = dfhack.persistent.getUnsavedSeconds()//60
     local pen = COLOR_LIGHTCYAN
-    if minsSinceSave < save_time_threshold_mins then return end
-    if minsSinceSave >= 4*save_time_threshold_mins then
+    if mins_since_save < save_time_threshold_mins then return end
+    if mins_since_save >= 4*save_time_threshold_mins then
         pen = COLOR_LIGHTRED
-    else if minsSinceSave >= 2*save_time_threshold_mins then
+    else if mins_since_save >= 2*save_time_threshold_mins then
         pen = COLOR_YELLOW
     end
     end
     return {
         {text='Last save: ', pen=COLOR_WHITE},
-        {text=(dfhack.formatInt(minsSinceSave)) ..' mins ago', pen=pen},
+        {text=dfhack.formatInt(mins_since_save) ..' mins ago', pen=pen},
     }
 end
 
