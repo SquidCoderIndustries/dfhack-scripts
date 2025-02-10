@@ -313,9 +313,8 @@ local function get_save_alert()
     if mins_since_save < save_time_threshold_mins then return end
     if mins_since_save >= 4*save_time_threshold_mins then
         pen = COLOR_LIGHTRED
-    else if mins_since_save >= 2*save_time_threshold_mins then
+    elseif mins_since_save >= 2*save_time_threshold_mins then
         pen = COLOR_YELLOW
-    end
     end
     return {
         {text='Last save: ', pen=COLOR_WHITE},
