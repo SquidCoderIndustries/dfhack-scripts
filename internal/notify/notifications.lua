@@ -329,10 +329,9 @@ local function save_popup()
         '(Note: You can also close this reminder and save manually)'
         dlg.showYesNoPrompt('Save now?', message, nil, function () dfhack.run_script('quicksave') end)
     else
-        return --FIXME: HANGS DF
-        -- local adv_warn_msg = "Unfortunately, quicksave doesn't currently work in Adventure mode, so you will need to save manually.\n\n"..
-        -- 'Close this popup to open the options menu and select "Save and continue playing"'
-        -- dlg.showMessage("Unable to use quicksave", adv_warn_msg, COLOR_WHITE, function () gui.simulateInput(gui.getDFViewscreen(), 'OPTIONS') end)
+        local adv_warn_msg = "Unfortunately, quicksave doesn't currently work in Adventure mode, so you will need to save manually.\n\n"..
+        'Close this popup to open the options menu and select "Save and continue playing"'
+        dlg.showMessage("Unable to use quicksave", adv_warn_msg, COLOR_WHITE, function () gui.simulateInput(dfhack.gui.getDFViewscreen(true), 'OPTIONS') end)
     end
 end
 
@@ -340,7 +339,7 @@ end
 NOTIFICATIONS_BY_IDX = {
     {-- The save reminder should always be at the top, since it's important.
         name='save-reminder',
-        desc='Shows a reminder if it has been more than 15 minutes since your last save.',
+        desc='Shows a reminder if it has been more than '.. save_time_threshold_mins ..' minute(s) since your last save.',
         default=true,
         fn=get_save_alert,
         on_click=save_popup
