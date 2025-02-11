@@ -9,7 +9,7 @@ local widgets = require('gui.widgets')
 local function get_civ_alert()
     local list = df.global.plotinfo.alerts.list
     while #list < 2 do
-        local list_item = df.plotinfost.T_alerts.T_list:new()
+        local list_item = df.alert_statest:new()
         list_item.id = df.global.plotinfo.alerts.next_id
         df.global.plotinfo.alerts.next_id = df.global.plotinfo.alerts.next_id + 1
         list_item.name = 'civ-alert'

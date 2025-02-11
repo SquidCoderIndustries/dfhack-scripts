@@ -158,7 +158,7 @@ local function setup_keys(options)
         KEYS.MATERIAL.STONE = {}
         KEYS.MATERIAL.GEM = {}
 
-        for id, rock in ipairs(df.global.world.raws.inorganics) do
+        for id, rock in ipairs(df.global.world.raws.inorganics.all) do
             local material = rock.material
             local name = material.state_adj.Solid
             KEYS.MATERIAL.SOLID[id] = name

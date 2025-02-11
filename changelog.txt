@@ -27,12 +27,12 @@ Template for new versions:
 # Future
 
 ## New Tools
-- `devel/export-map`: Export map tile data to a JSON file.
+- `devel/export-map`: export map tile data to a JSON file
 - `autocheese`: automatically make cheese using barrels that have accumulated sufficient milk
 - `gui/spectate`: interactive UI for configuring `spectate`
 
 ## New Features
-- `advtools`: new overlay ``advtools.fastcombat``; allows you to skip combat animations and the announcement "More" button
+- `advtools`: new ``advtools.fastcombat`` overlay (enabled by default)  allows you to skip combat animations and the announcement "More" button by mashing the movement keys
 
 ## Fixes
 
@@ -41,7 +41,7 @@ Template for new versions:
 - `hide-tutorials`: new ``reset`` command that will re-enable popups in the current game
 - `gui/notify`: save reminder now appears in adventure mode and also changes color to yellow at 30 minutes and to orange at 60 minutes
 - `gui/notify`: moody dwarf notification turns red when they can't find workshop or items
-
+- `gui/confirm`: in the delete manager order confirmation dialog, show a description of which order you have selected to delete
 
 ## Removed
 

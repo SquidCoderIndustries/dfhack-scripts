@@ -837,8 +837,8 @@ end
 function EnumItems_with_settings( args )
     if settings.check_inv then
         return EnumItems{pos=args.from_pos,unit=args.unit,
-                inv={[df.unit_inventory_item.T_mode.Hauled]=settings.use_worn,[df.unit_inventory_item.T_mode.Worn]=settings.use_worn,
-                [df.unit_inventory_item.T_mode.Weapon]=settings.use_worn,},deep=true}
+                inv={[df.inv_item_role_type.Hauled]=settings.use_worn,[df.inv_item_role_type.Worn]=settings.use_worn,
+                [df.inv_item_role_type.Weapon]=settings.use_worn,},deep=true}
     else
         return EnumItems{pos=args.from_pos}
     end
@@ -872,7 +872,7 @@ function find_suitable_items(job,items,job_items)
                 if not settings.gui_item_select then
                     if (item_counts[job_id]>0 and item_suitable) or settings.build_by_items then
                         --cur_item.flags.in_job=true
-                        job.items:insert("#",{new=true,item=cur_item,role=df.job_item_ref.T_role.Reagent,job_item_idx=job_id})
+                        job.items:insert("#",{new=true,item=cur_item,role=df.job_role_type.Reagent,job_item_idx=job_id})
                         item_counts[job_id]=item_counts[job_id]-cur_item:getTotalDimension()
                         --print(string.format("item added, job_item_id=%d, item %s, quantity left=%d",job_id,tostring(cur_item),item_counts[job_id]))
                         used_item_id[cur_item.id]=true
@@ -1021,8 +1021,8 @@ end
 --         print("AAA FAILED!")
 --         return false
 --     end
---     args.job.items[0].role=df.job_item_ref.T_role.LinkToTarget
---     args.job.items[1].role=df.job_item_ref.T_role.LinkToTrigger
+--     args.job.items[0].role=df.job_role_type.LinkToTarget
+--     args.job.items[1].role=df.job_role_type.LinkToTrigger
 -- end
 function fake_linking(lever,building,slots)
     local item1=slots[1].items[1]
@@ -1331,8 +1331,8 @@ end
 function usetool:openPutWindow(building)
     local adv=dfhack.world.getAdventurer()
     local items=EnumItems{pos=adv.pos,unit=adv,
-        inv={[df.unit_inventory_item.T_mode.Hauled]=true,--[df.unit_inventory_item.T_mode.Worn]=true,
-             [df.unit_inventory_item.T_mode.Weapon]=true,},deep=true}
+        inv={[df.inv_item_role_type.Hauled]=true,--[df.inv_item_role_type.Worn]=true,
+             [df.inv_item_role_type.Weapon]=true,},deep=true}
     local choices={}
     for k,v in pairs(items) do
         table.insert(choices,{text=dfhack.items.getDescription(v,0),item=v})

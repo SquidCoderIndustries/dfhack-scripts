@@ -30,7 +30,7 @@ function AdvCombatOverlay:preUpdateLayout(parent_rect)
 end
 
 function AdvCombatOverlay:render(dc)
-    if df.global.adventure.player_control_state == df.adventurest.T_player_control_state.TAKING_INPUT then
+    if df.global.adventure.player_control_state == df.adventure_game_loop_type.TAKING_INPUT then
         self.skip_combat = false
         return
     end
@@ -62,7 +62,7 @@ local COMBAT_MOVE_KEYS = {
 function AdvCombatOverlay:onInput(keys)
     for code,_ in pairs(keys) do
         if not COMBAT_MOVE_KEYS[code] then goto continue end
-        if df.global.adventure.player_control_state ~= df.adventurest.T_player_control_state.TAKING_INPUT then
+        if df.global.adventure.player_control_state ~= df.adventure_game_loop_type.TAKING_INPUT then
             -- Instantly speed up the combat
             self.skip_combat = true
         elseif df.global.world.status.temp_flag.adv_showing_announcements then
